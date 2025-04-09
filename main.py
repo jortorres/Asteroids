@@ -15,11 +15,21 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     time = pygame.time.Clock()  
     dt = 0
-
+    
     #init player
     x = SCREEN_WIDTH/2
     y = SCREEN_HEIGHT/2
+
+   
+    updateable = pygame.sprite.Group()  # creates group 1
+    drawable = pygame.sprite.Group() # creates group 2
+
+    Player.containers = (updateable, drawable)
+
     player = Player(x,y)
+
+   
+
 
 
 
@@ -28,8 +38,9 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill((0,0,0)) # fills screen with black
-        player.update(dt)
-        player.draw(screen)
+        updateable.update(dt)  # rotate player left or right
+        for thing in drawble:
+            thing.draw(screen) # draw triangle
         pygame.display.flip()
         dt = time.tick(60)/1000
        
