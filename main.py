@@ -57,6 +57,13 @@ def main():
                     running = False
                     print("Game Over")
 
+        for hit_asteroid in asteroid:
+            if isinstance(hit_asteroid, CircleShape ) and isinstance(player, CircleShape): # check to make sure both are instances
+                for bullet in shots:
+                    if hit_asteroid.collisions(bullet):
+                        hit_asteroid.split()
+                        bullet.kill()
+
         for thing in drawable:
             thing.draw(screen) # draw triangle
         
