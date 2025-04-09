@@ -10,3 +10,6 @@ PLAYER_RADIUS = 20
 
 PLAYER_TURN_SPEED = 300 #for rotating
 PLAYER_SPEED = 200 # for back and forth
+
+SHOT_RADIUS = 5
+PLAYER_SHOOT_SPEED = 500

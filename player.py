@@ -1,5 +1,7 @@
+from turtle import position
 from circleshape import *
 from constants import *
+from shot import *
 
 class Player(CircleShape):
    
@@ -24,7 +26,7 @@ class Player(CircleShape):
     def rotate(self, dt):
        self.rotation += PLAYER_TURN_SPEED * dt
 
-    def update(self, dt):
+    def update(self, dt, shots_group):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
@@ -38,10 +40,20 @@ class Player(CircleShape):
         
         if keys[pygame.K_s]:
            self.move(-dt)
+        
+        if keys[pygame.K_SPACE]:
+           self.shoot(shots_group)
 
     def move(self, dt):
        forward = pygame.Vector2(0,1).rotate(self.rotation)
        self.position += forward * PLAYER_SPEED * dt
+    
+    def shoot(self, shots_group):
+       new_shot = Shot(self.position.x, self.position.y)
+
+       forward = pygame.Vector2(0,1).rotate(self.rotation)
+       new_shot.velocity = forward * PLAYER_SHOOT_SPEED
+       shots_group.add(new_shot)
        
     
 

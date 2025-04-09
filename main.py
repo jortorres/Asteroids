@@ -1,6 +1,7 @@
 # this allows us to use code from
 # the open-source pygame library
 # throughout this file
+import sys
 import pygame
 from constants import *
 from player import *
@@ -26,24 +27,41 @@ def main():
     updateable = pygame.sprite.Group()  # creates group 1
     drawable = pygame.sprite.Group() # creates group 2
     asteroid = pygame.sprite.Group() # creates group 3
+    shots = pygame.sprite.Group() # crates group 4
 
     Player.containers = (updateable, drawable)
     Asteroid.containers =(asteroid,updateable,drawable)
     AsteroidField.containers =(updateable,)
+    Shot.containers = (updateable, drawable, shots)
 
     player = Player(x,y)
     asteroid_field = AsteroidField()
 
-    while True: 
+    running = True
+    while running: 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                running = False
+
         screen.fill((0,0,0)) # fills screen with black
-        updateable.update(dt)  # rotate player left or right
+
+        for entity in updateable:
+            if isinstance(entity, Player):
+                entity.update(dt, shots)
+            else:
+                entity.update(dt)
+
+        for check in asteroid:
+            if isinstance(check, CircleShape) and isinstance(player, CircleShape): # check to make sure both are instances
+                if check.collisions(player):
+                    running = False
+                    print("Game Over")
 
         for thing in drawable:
             thing.draw(screen) # draw triangle
+        
         pygame.display.flip()
+        
         dt = time.tick(60)/1000
        
         
