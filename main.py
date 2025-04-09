@@ -4,6 +4,8 @@
 import pygame
 from constants import *
 from player import *
+from asteroid import *
+from asteroidfield import *
 
 def main():
     print("Starting Asteroids!")
@@ -23,15 +25,14 @@ def main():
    
     updateable = pygame.sprite.Group()  # creates group 1
     drawable = pygame.sprite.Group() # creates group 2
+    asteroid = pygame.sprite.Group() # creates group 3
 
     Player.containers = (updateable, drawable)
+    Asteroid.containers =(asteroid,updateable,drawable)
+    AsteroidField.containers =(updateable,)
 
     player = Player(x,y)
-
-   
-
-
-
+    asteroid_field = AsteroidField()
 
     while True: 
         for event in pygame.event.get():
@@ -39,7 +40,8 @@ def main():
                 return
         screen.fill((0,0,0)) # fills screen with black
         updateable.update(dt)  # rotate player left or right
-        for thing in drawble:
+
+        for thing in drawable:
             thing.draw(screen) # draw triangle
         pygame.display.flip()
         dt = time.tick(60)/1000
