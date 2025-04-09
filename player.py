@@ -1,4 +1,3 @@
-from turtle import position
 from circleshape import *
 from constants import *
 from shot import *
